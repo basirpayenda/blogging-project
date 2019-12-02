@@ -1,0 +1,16 @@
+{% extends 'blogApp/base.html' %} {% block main %}
+
+<div class="content-section">
+  <h2 class="border-bottom pb-3 mb-3 text-danger">
+    <small>Delete "{{ object.title }}"</small>
+  </h2>
+  <form action="." method="POST">
+    {% csrf_token %} Are you sure you want to delete? <br />
+    <input type="submit" class="btn btn-danger btn-sm my-2" value="Delete" />
+    <a href="{% url 'blog-home' %}" class="btn btn-secondary my-2 btn-sm "
+      >Cancel</a
+    >
+  </form>
+</div>
+
+{% endblock %}

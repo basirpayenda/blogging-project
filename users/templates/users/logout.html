@@ -1,0 +1,7 @@
+{% extends 'blogApp/base.html' %} {% block main %} {% load crispy_forms_tags %}
+<div class="content-section">
+  <h3 class="border-bottom mb-2 pb-3">Successfully logged out</h3>
+  <a href="{% url 'users:login' %}">Login Again</a>
+</div>
+
+{% endblock main %}

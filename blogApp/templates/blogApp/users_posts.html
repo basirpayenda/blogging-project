@@ -1,0 +1,46 @@
+
+{% extends 'blogApp/base.html' %} 
+{% block main %} 
+  <div class="alert alert-info">
+    <h2>Posts by <strong>{{ view.kwargs.username }}</strong> <br>  Total: {{ page_obj.paginator.count }}</h2>
+  </div>
+  {% for post in posts %}
+    <article class="media content-section">
+      <div class="media-body">
+        <div class="article-metadata">
+          <img class='article-svg rounded-circle' src="{{ post.author.profile.image.url }}" alt="">
+          <a class="mr-2" href="#">{{ post.author }}</a>
+          <small class="text-muted">
+            {% if post.updated_at == post.created_at %}
+              Posted {{ post.created_at|timesince }} ago
+            {% else %} 
+              Updated {{ post.updated_at|timesince }} ago
+            {% endif %}           
+          </small>
+        </div>
+        <h2><a class="article-title" href="{% url 'blog-detail' post.pk %}">{{ post.title }}</a></h2>
+        <p class="article-content">{{ post.content|truncatechars:150 }} <a href="{% url "blog-detail" post.pk %}">read more</a> </p>
+      </div>
+    </article>
+  {% endfor %} 
+  {% if is_paginated %}
+    {% if page_obj.has_previous %}
+      <a href="?page=1" class="btn btn-outline-success">1</a>
+      <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline-success">Previous</a>
+    {% endif %}
+
+    {% for page_num in page_obj.paginator.page_range %}
+      {% if page_num == page_obj.number %}
+            <a href="?page={{ page_num }}" class="btn btn-success">{{ page_num }}</a>
+      {% elif page_num > page_obj.number|add:'-3' and page_num < page_obj.number|add:'3' %}
+            <a href="?page={{ page_num }}" class="btn btn-outline-success">{{ page_num }}</a>
+      {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline-success">Next</a>
+      <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-outline-success">Last</a>
+    {% endif %}
+  {% endif %}
+  <br><br><br>
+{% endblock main %}
