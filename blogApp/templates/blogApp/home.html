@@ -9,7 +9,7 @@
           <a class="mr-2" href="{% url 'users-posts' post.author.username %}">{{ post.author }}</a>
           <small class="text-muted">
             {% if post.updated_at == post.created_at %}
-              <i class="fa fa-plus mx-1" aria-hidden="true"></i>Posted {{ post.created_at|timesince }} ago
+            <i class="fas fa-plus-square"></i> Posted {{ post.created_at|timesince }} ago
             {% else %} 
               <i class="fas fa-edit mx-1"></i> Updated {{ post.updated_at|timesince }} ago
             {% endif %}           

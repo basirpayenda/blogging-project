@@ -8,6 +8,8 @@ from django.core.paginator import Paginator
 from django.contrib.auth.models import User
 from django.db.models import F
 from .forms import PostForm
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
 
 
 class PostListView(ListView):
@@ -36,11 +38,12 @@ def post_detail(request, title_slug):
     template_name = 'blogApp/detail.html' """
 
 
-class PostUpdateView(UpdateView, LoginRequiredMixin, UserPassesTestMixin):
+class PostUpdateView(SuccessMessageMixin, UpdateView, LoginRequiredMixin, UserPassesTestMixin):
     model = Post
     form_class = PostForm
     template_name = 'blogApp/update.html'
     success_url = '/'
+    success_message = "<strong>%(title)s</strong> updated successfully!"
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -57,10 +60,11 @@ class PostUpdateView(UpdateView, LoginRequiredMixin, UserPassesTestMixin):
         return get_object_or_404(Post, slug=slug)
 
 
-class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class PostDeleteView(SuccessMessageMixin, LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     success_url = '/'
     template_name = 'blogApp/delete.html'
+    success_message = 'Post Deleted'
 
     def test_func(self):
         post = self.get_object()
@@ -72,12 +76,17 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         slug = self.kwargs.get('title_slug')
         return get_object_or_404(Post, slug=slug)
 
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, self.success_message)
+        return super(PostDeleteView, self).delete(request, *args, **kwargs)
 
-class PostCreateView(LoginRequiredMixin, CreateView):
+
+class PostCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     model = Post
     form_class = PostForm
     template_name = 'blogApp/create.html'
     success_url = '/'
+    success_message = "<strong>%(title)s</strong> created successfully!"
 
     def form_valid(self, form):
         form.instance.author = self.request.user
