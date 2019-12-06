@@ -94,3 +94,7 @@ a.article-title:hover {
   border: 1px solid #ccc;
   padding: 5px;
 }
+
+.highlight {
+  background-color: yellow;
+}

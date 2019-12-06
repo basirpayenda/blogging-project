@@ -18,5 +18,5 @@ urlpatterns = [
     path('post/<slug:title_slug>/', blog_view.post_detail, name='blog-detail'),
     path('about/', blog_view.about, name='blog-about'),
     path('tinymce/', include('tinymce.urls')),
-
+    path('search-blogs/', blog_view.SearchBlog.as_view(), name='search_blogs'),
 ]

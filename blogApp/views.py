@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from .models import Post
@@ -10,6 +11,7 @@ from django.db.models import F
 from .forms import PostForm
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
+from django.views.generic import View
 
 
 class PostListView(ListView):
@@ -110,3 +112,20 @@ def about(request):
         'title': 'about'
     }
     return render(request, 'blogApp/about.html', context)
+
+
+class SearchBlog(View):
+    def get(self, request, *args, **kwargs):
+        query = request.GET.get('query')
+        if query:
+            queryset = Post.objects.filter(
+                Q(title__icontains=query) |
+                Q(title__icontains=query)
+            ).distinct()
+
+        context = {
+            'queryset': queryset,
+            'query': query
+        }
+
+        return render(request, 'blogApp/search_results.html', context)
