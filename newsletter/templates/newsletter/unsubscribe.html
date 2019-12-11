@@ -1,0 +1,17 @@
+{% extends 'blogApp/base.html' %} 
+{% load crispy_forms_tags %} 
+
+{% block main %}
+
+<div class="content-section">
+  <fieldset class="form-group">
+    <legend class="border-bottom mb-4">Unsubscribe</legend>
+    <form action="#" method="POST">
+      {% csrf_token %} 
+      {{ unsubscribe_form|crispy }}
+      <input type="submit" class="btn btn-outline-success" value="Unsubscribe" />
+    </form>
+  </fieldset>
+</div>
+
+{% endblock main %}

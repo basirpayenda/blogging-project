@@ -1,0 +1,14 @@
+{% extends 'blogApp/base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block main %}
+    <div class="content-section">
+        <form action="." method="POST">
+            {% csrf_token %}
+            {{form|crispy}}
+            <input type="submit" value="Send NewsLetter" class='btn btn-primary'>
+        </form>
+    </div>
+{% endblock main %}
+

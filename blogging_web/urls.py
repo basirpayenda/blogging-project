@@ -25,7 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('blogApp.urls')),
     path('profile/', include('users.urls')),
-
+    path('subscribe/', include('newsletter.urls'))
 ]
 
 

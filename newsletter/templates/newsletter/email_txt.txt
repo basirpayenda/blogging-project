@@ -1,0 +1,1 @@
+Thank you for subscribing to our channel, click http://localhost:8000/subscribe/newsletter-unsubscribe/ to unsubscribe

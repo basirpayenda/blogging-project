@@ -1,14 +1,12 @@
 {% load static %}
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
     {{ form.media }}
     <link rel="stylesheet" href='{% static "blogApp/main.css" %}'>
 
@@ -39,6 +37,9 @@
               <a class="nav-item nav-link" href="{% url 'blog-home' %}">Home</a>
               <a class="nav-item nav-link" href="{% url 'blog-about' %}">About</a>
               <a class="nav-item nav-link" href="{% url 'blog-create' %}">Create</a>
+              {% if user.username == 'Admin' %}
+                  <a class="nav-item nav-link" href="{% url 'newsletter:send_newsletter' %}">Send Newsletter</a>
+              {% endif %}
             </div>
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
@@ -62,9 +63,9 @@
               {% if messages %}
                 {% for message in messages %}
                 <div class="alert alert-success alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                {{message|safe}}
-              </div>
+                  <button type="button" class="close" data-dismiss="alert">&times;</button>
+                  {{message|safe}}
+                </div>
                 {% endfor %}
               {% endif %}
 
@@ -79,7 +80,16 @@
                 <form action="{% url 'search_blogs' %}">
                   {% csrf_token %}
                   <input type="text" name="query" class="form-control mb-3" placeholder="Search Blogs by Title ...">
-                  <button type="Submit" class="btn btn-outline-primary btn-block">Search</button>
+                  <button type="Submit" class="btn btn-primary btn-block">Search</button>
+                </form>
+              </div>
+
+              <div class="content-section">
+                <h2 class="border-bottom pb-3 mb-3">Daily Newsletter?</h2>
+                <form action="{% url 'newsletter:subscribe' %}" method="POST">
+                  {% csrf_token %} 
+                  {{ subscribe_form|crispy }}
+                  <button type="Submit" class="btn btn-primary btn-block">Subscribe</button> <br>
                 </form>
               </div>
               <div class="content-section">

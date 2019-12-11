@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django.contrib.humanize',
     'tinymce',
+    'newsletter',
 ]
 
 MIDDLEWARE = [
@@ -137,8 +138,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-
-# these 2 lines below didn't work
 EMAIL_HOST_USER = os.environ.get('email')
 EMAIL_HOST_PASSWORD = os.environ.get('pass')
 
@@ -146,7 +145,7 @@ EMAIL_HOST_PASSWORD = os.environ.get('pass')
 TINYMCE_DEFAULT_CONFIG = {
     'height': 360,
     'width': '100%',
-    'menubar': False,
+    'menubar': True,
     'statusbar': False,
     'toolbar_items_size': 'small',
     'cleanup_on_startup': True,

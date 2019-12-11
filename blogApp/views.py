@@ -12,6 +12,7 @@ from .forms import PostForm
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.views.generic import View
+from newsletter.forms import NewsLetterUserListForm
 
 
 class PostListView(ListView):
@@ -20,6 +21,11 @@ class PostListView(ListView):
     template_name = 'blogApp/home.html'
     ordering = '-created_at'
     paginate_by = 3
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(PostListView, self).get_context_data(*args, **kwargs)
+        context['subscribe_form'] = NewsLetterUserListForm()
+        return context
 
 
 def post_detail(request, title_slug):
